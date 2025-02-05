@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Correct order */
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap'); */
+
+
+.roboto-condensed {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.roboto-condensed-bold {
+  font-family: "Roboto Condensed", serif;
+  font-weight: 700; /* Bold weight */
+}
+.roboto-condensed-light {
+  font-family: "Roboto Condensed", serif;
+  font-weight: 300; /* Light weight */
+}
+
+body {
+  font-family: "Roboto Condensed", serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Roboto Condensed", serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+.nav_hover:hover> Square {
+  background-color: #58D389;
+}
