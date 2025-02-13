@@ -42,3 +42,6 @@ h6 {
 .nav_hover:hover> Square {
   background-color: #58D389;
 }
+#rotate-360 {
+  transform: rotate(360deg);
+}

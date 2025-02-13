@@ -63,13 +63,13 @@ const Topics = () => {
         }}
         >
           
-        <Button className="bg-blue-500 px-12 py-5 text-white hover:bg-blue-600">
+        <Button className="bg-[#BE3144] text-black px-12 py-5  hover:bg-blue-600">
           Start of the exam
         </Button>
         </Link>
 
         <Select onValueChange={setSelectedVehicle}>
-          <SelectTrigger className="w-full bg-blue-500 text-white px-4 py-6 rounded-md flex items-center">
+          <SelectTrigger className="w-full bg-[#BE3144] text-black px-4 py-6 rounded-md flex items-center">
             <SelectValue placeholder={selectedVehicle} />
           </SelectTrigger>
 
@@ -94,7 +94,7 @@ const Topics = () => {
       <div className="bg-white shadow-md rounded-lg p-4">
         <div className="flex items-center justify-center gap-2 mb-4">
           <Checkbox
-            className={`peer ${selectedTopics.size === topics.length ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            className={`peer ${selectedTopics.size === topics.length ? "bg-[#BE3144] text-white" : "bg-gray-200"}`}
             checked={selectedTopics.size === topics.length}
             onCheckedChange={toggleAll}
           />
@@ -105,7 +105,7 @@ const Topics = () => {
           {topics.map((topic, index) => (
             <div key={index} className="flex items-center gap-2">
               <Checkbox
-                className={`peer ${selectedTopics.has(topic) ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+                className={`peer ${selectedTopics.has(topic) ? "bg-[#BE3144] text-white" : "bg-gray-200"}`}
                 checked={selectedTopics.has(topic)}
                 onCheckedChange={() => toggleTopic(topic)}
               />

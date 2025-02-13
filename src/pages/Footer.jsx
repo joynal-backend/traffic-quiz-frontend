@@ -1,45 +1,82 @@
-import { Snail } from "lucide-react";
-import React from "react";
+import { ChevronDown, Snail } from "lucide-react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+    const handleMouseEnter = () => {
+      setIsDropdownOpen(true);
+    };
+  
+    const handleMouseLeave = () => {
+      setIsDropdownOpen(false);
+    };
   return (
     <footer className="w-full bg-white border-t py-4">
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-6">
-        {/* Left Section: Logo & Contact Info */}
-        <div className="flex flex-col items-center md:items-start space-y-2">
-        <div className="flex items-center space-x-2">
-          <Snail />
-            <span className="font-bold text-lg">TRAFFIC</span> 
-          </div>          <p className="text-sm text-gray-600">Mob: [+995] 568992731</p>
-          <p className="text-sm text-gray-600">Email: alekomamadashvili@gmail.com</p>
+       <div className="flex justify-between items-center px-4 py-3 bg-white">
+        {/* Logo */}
+        <div className="flex items-center">
+          <img src="/src/assets/car-logo.png" alt="Logo" className="h-14" />
         </div>
 
-        {/* Middle Section: Navigation with Hover Effect */}
-        <nav className="flex space-x-6 text-gray-700 mt-4 md:mt-0">
-          {["Main", "Exam", "Tickets", "Signs", "Contact"].map((item, index) => (
-            <div key={index} className="relative group">
-              <Link
-                to={`/${item.toLowerCase()}`}
-                className={`hover:text-green-500 ${
-                  item === "Exam" ? "text-black font-bold" : ""
-                }`}
-              >
-                {item}
-              </Link>
-              <div
-                className={`absolute left-0 right-0 h-[2px] transition-all duration-300 ${
-                  item === "Exam"
-                    ? "bg-green-500 w-full"
-                    : "bg-green-500 w-0 group-hover:w-full"
-                }`}
-              />
-            </div>
-          ))}
-        </nav>
+        {/* Navigation Menu */}
+        <nav className="md:flex space-x-6 mx-auto flex items-center">
+          {/* Dropdown Menu */}
+          <div
+            className="relative group flex items-center space-x-1"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+                        
 
-        {/* Right Section: Copyright */}
-        <div className="text-gray-700 text-sm mt-4 md:mt-0">© 2012 - 2025</div>
+            <button className="flex items-center space-x-1  group-hover:text-green-500 font-bold">
+              <span>მთავარი1</span>
+              <ChevronDown size={16} className="text-gray-700 group-hover:text-green-500 font-bold" />
+            </button>
+            {/* Dropdown Content */}
+            {isDropdownOpen && (
+              <div className="absolute bg-white shadow-sm mt-28  rounded-md w-36">
+                <Link
+                  to="/"
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  ჩვენს შესახებ
+                </Link>
+                <Link
+                  to="/contact"
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  კონტაქტი
+                </Link>
+              </div>
+      )} 
+          </div>
+
+          {/* Other Links */}
+          <Link
+            to="/tickets"
+            className="flex group items-center space-x-1 text-gray-700 hover:text-green-500 font-bold"
+          >
+
+<span>ბილეთები</span>
+          </Link>
+          <Link
+            to="/test"
+            className=" group flex  items-center space-x-1 text-gray-700 hover:text-green-500 font-bold"
+          >
+
+           <span>გამოცდა</span>
+      
+          </Link>
+        </nav>
+      </div>
+      <div>
+        <p className="flex justify-center gap-3 text-sm  text-center text-gray-600">
+          <span className="font-bold">  ყველა უფლება დაცულია</span>
+   <span>      (copyright logo) 2025 | ZGLMedia</span>
+
+        </p>
       </div>
     </footer>
   );

@@ -64,6 +64,41 @@ const Quiz = () => {
     }
   }, [timeLeft]);
 
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft]);
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      const key = event.key;
+      if (key >= "1" && key <= "4") {
+        const optionIndex = parseInt(key, 10) - 1;
+        const currentOptions = examQuestions[currentQuestionIndex]?.options;
+        if (currentOptions && optionIndex < currentOptions.length) {
+          handleAnswerClick(currentOptions[optionIndex]);
+        }
+      } else if (key === "Enter") {
+        if (currentQuestionIndex < examQuestions.length - 1 && userAnswers[currentQuestionIndex] !== null) {
+          setCurrentQuestionIndex((prev) => prev + 1);
+        }
+      } else if (key === "ArrowRight") {
+        if (currentQuestionIndex < examQuestions.length - 1 && userAnswers[currentQuestionIndex] !== null) {
+          setCurrentQuestionIndex((prev) => prev + 1);
+        }
+      } else if (key === "ArrowLeft") {
+        setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [currentQuestionIndex, examQuestions, userAnswers]);
+
   const handleAnswerClick = (option) => {
     if (userAnswers[currentQuestionIndex] !== null) return; // Prevent changing previous answers
 
@@ -125,9 +160,10 @@ const Quiz = () => {
         <div className="my-4">
           {/* Question image*/}
           {examQuestions[currentQuestionIndex].image ? (
-  <div>
+  <div className="w-[90%] h-[300px] mx-auto mb-4">
     <img 
-      src={examQuestions[currentQuestionIndex].image} 
+      //src={examQuestions[currentQuestionIndex].image} 
+      src="https://thumbs.dreamstime.com/b/vector-illustration-streets-crossing-modern-city-crossroad-traffic-lights-markings-trees-sidewalk-pedestrians-127193280.jpg"
       alt="Question" 
       className="w-full h-full object-cover" 
     />
@@ -142,7 +178,7 @@ const Quiz = () => {
             {examQuestions[currentQuestionIndex].options.map((option, index) => (
               <div key={index} className="border border-[#DDDDDD] mx-2 sm:mx-4 bg-gray-800 text-white">
                 <button
-                  className={` text-[16px] sm:text-[18px] py-2 px-1 w-full text-start
+                  className={` text-[16px] sm:text-[18px] py-2 px-1 w-full text-start flex items-center justify-start gap-1
                     ${userAnswers[currentQuestionIndex] !== null
                       ? option === examQuestions[currentQuestionIndex].answer
                         ? "bg-green-600"
@@ -154,7 +190,8 @@ const Quiz = () => {
                   onClick={() => handleAnswerClick(option)}
                   disabled={userAnswers[currentQuestionIndex] !== null} 
                 >
-                  {index + 1}. {option}
+                  <span className="bg-white text-black text-center px-2 py-1 rounded-md shadow-lg font-bold">{index+1} </span>
+              {option}
                 </button>
               </div>
             ))}
