@@ -63,7 +63,7 @@ const Topics = () => {
         }}
         >
           
-        <Button className="bg-[#BE3144] text-black px-12 py-5  hover:bg-blue-600">
+        <Button className="bg-[#BE3144] text-black px-12 py-5  hover:bg-[#F72C5B]">
           Start of the exam
         </Button>
         </Link>
@@ -73,7 +73,7 @@ const Topics = () => {
             <SelectValue placeholder={selectedVehicle} />
           </SelectTrigger>
 
-          <SelectContent className="w-full py-4 bg-blue-600 text-white shadow-lg rounded-md">
+          <SelectContent className="w-full py-4 bg-[#BE3144] text-white shadow-lg rounded-md">
             {vehicleOptions.map((option) => (
               <SelectItem
                 key={option.value}
@@ -93,13 +93,15 @@ const Topics = () => {
       {/* Topics Section */}
       <div className="bg-white shadow-md rounded-lg p-4">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <Checkbox
+          <Checkbox 
+           
             className={`peer ${selectedTopics.size === topics.length ? "bg-[#BE3144] text-white" : "bg-gray-200"}`}
             checked={selectedTopics.size === topics.length}
             onCheckedChange={toggleAll}
           />
           <span className="ml-2">Mark/Unmark all</span>
         </div>
+     
 
         <div className="grid grid-cols-2 gap-4">
           {topics.map((topic, index) => (

@@ -201,36 +201,33 @@ const Quiz = () => {
         </div>
       )}
 
-      {loading && <p>Loading questions...</p>}
+{loading && <p>Loading questions...</p>}
       {error && <p className="text-red-500">{error}</p>}
-
-      {/* Pagination */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-900 p-3 flex justify-center items-center gap-2">
-        <button
+      <div className="fixed bottom-0 left-0 w-full bg-gray-900 p-3 flex justify-between items-center">
+      <button
           className="px-3 py-1 border rounded-md bg-gray-800 text-white disabled:opacity-50"
           onClick={() => setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))}
           disabled={currentQuestionIndex === 0}
         >
           ⬅️
         </button>
-
-        {[...Array(examQuestions.length)].map((_, index) => (
-          <button
-            key={index}
-            className={`px-3 py-1 border rounded-md ${
-              index === currentQuestionIndex ? "bg-yellow-400" : "bg-gray-800 text-white"
-            }`}
-            onClick={() => setCurrentQuestionIndex(index)}
-          >
-            {index + 1}
-          </button>
-        ))}
-
+        <div className="flex gap-2">
+          {examQuestions[currentQuestionIndex]?.options.map((option, index) => (
+            <button
+              key={index}
+              className="px-4 py-2 border rounded-md bg-gray-800 text-white"
+              onClick={() => handleAnswerClick(option)}
+              disabled={userAnswers[currentQuestionIndex] !== null}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
         {currentQuestionIndex < examQuestions.length - 1 ? (
           <button
             className="px-3 py-1 border rounded-md bg-gray-800 text-white disabled:opacity-50"
-            onClick={handleNextQuestion}
-            disabled={userAnswers[currentQuestionIndex] === null} // Only enable if answered
+            onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
+            disabled={userAnswers[currentQuestionIndex] === null}
           >
             ➡️
           </button>
