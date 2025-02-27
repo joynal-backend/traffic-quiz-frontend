@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext"; // ✅ Import AuthContext
+import { AuthContext } from "@/Context/AuthContext";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -12,10 +12,9 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log("Logging in with:", { username, password });
+     
 
-      const res = await axios.post("http://localhost:5000/admin/login", { username, password });
-      console.log("Server Response:", res.data);
+      const res = await axios.post("https://traffic-master-backend-bay.vercel.app/admin/login", { username, password });
 
       localStorage.setItem("token", res.data.token);
       setIsAuthenticated(true); // ✅ Update authentication state

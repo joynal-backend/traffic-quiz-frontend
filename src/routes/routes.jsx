@@ -1,27 +1,25 @@
+import App from "@/App";
+import Exam from "@/pages/Exam";
+import Result from "@/pages/Result";
+import Home from "@/pages/Home";
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-import Result from "../pages/Result";
-import Quiz from "@/pages/Quiz";
-import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
+import Login from "@/pages/Login";
 import PrivateRoute from "./PrivetRoute";
 
-export const routes = createBrowserRouter([
+
+const routes = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-  },
-  {
-    path: "/result",
-    element: <Result />,
+    element: <App/>,
   },
   {
     path: "/exam",
-    element: <Quiz />,
+    element: <Exam/>,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/result",
+    element: <Result/>,
   },
   {
     path: "/dashboard",
@@ -31,4 +29,10 @@ export const routes = createBrowserRouter([
       </PrivateRoute>
     ),
   },
+  {
+    path: "/login",
+    element: <Login/>,
+  },
 ]);
+
+export { routes };

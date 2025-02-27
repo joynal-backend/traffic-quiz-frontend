@@ -1,81 +1,85 @@
-import { ChevronDown, Snail } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
-    const handleMouseEnter = () => {
-      setIsDropdownOpen(true);
-    };
-  
-    const handleMouseLeave = () => {
-      setIsDropdownOpen(false);
-    };
+
+  const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
+
   return (
-    <footer className="w-full bg-white border-t py-4">
-       <div className="flex justify-between items-center px-4 py-3 bg-white">
+    <footer className="md:fixed md:bottom-0 w-full bg-white border-t py-4">
+      <div className="mx-4 md:mx-6 flex justify-between items-center px-4 py-3 bg-white">
         {/* Logo */}
         <div className="flex items-center">
-          <img src="/src/assets/car-logo.png" alt="Logo" className="h-14" />
+          <Link to="/">
+            <img
+              src="https://i.ibb.co.com/XBz524M/Screenshot-25.png"
+              alt="Logo"
+              className="h-16 md:h-[52px]"
+            />
+          </Link>
         </div>
 
         {/* Navigation Menu */}
-        <nav className="md:flex space-x-6 mx-auto flex items-center">
+        <nav className="flex items-center gap-3 mx-auto">
           {/* Dropdown Menu */}
-          <div
-            className="relative group flex items-center space-x-1"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-                        
-
-            <button className="flex items-center space-x-1  group-hover:text-green-500 font-bold">
+          <div className="relative">
+            <button
+              onClick={toggleDropdown}
+              className="flex items-center space-x-1 text-sm md:text-base font-bold hover:text-green-500"
+            >
               <span>მთავარი1</span>
-              <ChevronDown size={16} className="text-gray-700 group-hover:text-green-500 font-bold" />
+              <ChevronDown size={16} className="text-gray-700" />
             </button>
+
             {/* Dropdown Content */}
             {isDropdownOpen && (
-              <div className="absolute bg-white shadow-sm mt-28  rounded-md w-36">
+              <div
+                className="absolute bg-white border
+               border-gray-300  -top-24 shadow-lg
+                md:absolute 
+                             -left-2  mb-28 mr-4  
+                rounded-md w-52 z-20"
+              >
                 <Link
-                  to="/"
-                  className="block px-4 py-2 hover:bg-gray-100"
+                  to="/road-signs"
+                  className="block px-4 py-3 text-sm hover:bg-gray-100 border-b border-gray-200"
                 >
                   ჩვენს შესახებ
                 </Link>
                 <Link
-                  to="/contact"
-                  className="block px-4 py-2 hover:bg-gray-100"
+                  to="/categories"
+                  className="block px-4 py-3 text-sm hover:bg-gray-100"
                 >
                   კონტაქტი
                 </Link>
               </div>
-      )} 
+            )}
           </div>
 
           {/* Other Links */}
           <Link
             to="/tickets"
-            className="flex group items-center space-x-1 text-gray-700 hover:text-green-500 font-bold"
+            className="text-sm md:text-base font-bold text-gray-700 hover:text-green-500"
           >
-
-<span>ბილეთები</span>
+            ბილეთები
           </Link>
           <Link
             to="/test"
-            className=" group flex  items-center space-x-1 text-gray-700 hover:text-green-500 font-bold"
+            className="text-sm md:text-base font-bold text-gray-700 hover:text-green-500"
           >
-
-           <span>გამოცდა</span>
-      
+            გამოცდა
           </Link>
         </nav>
       </div>
-      <div>
-        <p className="flex justify-center gap-3 text-sm  text-center text-gray-600">
-          <span className="font-bold">  ყველა უფლება დაცულია</span>
-   <span>      (copyright logo) 2025 | ZGLMedia</span>
 
+      <div className="text-sm">
+        <p className="flex justify-center gap-3 text-center text-gray-600">
+          <span className="text-[12px] md:text-sm font-bold">
+            ყველა უფლება დაცულია
+          </span>
+          <span className="text-[12px] md:text-sm"> @2025 | ZGLMedia</span>
         </p>
       </div>
     </footer>

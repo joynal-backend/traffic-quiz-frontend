@@ -5,19 +5,48 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import Navbar from './pages/Navbar';
-import Topics from './pages/Topics';
+import Home from './pages/Home';
 import Footer from './pages/Footer';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+
 
 function App() {
+  const navigate = useNavigate();
+  const notify = () => toast("Wow so easy!");
+
+
+  const handleStartQuiz = (topics, vehicle) => {
+    navigate("/quiz", {
+      state: {
+        selectedTopics: topics,
+        selectedVehicle: vehicle,
+      },
+    });
+  };
 
   return (
     <>
-      <div className='max-w-7xl mx-auto'>
+   
+     <div className=''>
         <Navbar />
-        <Topics />
+        <Home />
+
+   
         <Footer />
- 
+        <ToastContainer
+        position="bottom-right"
+        autoClose={500000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+    />
       </div>
+   
     </>
   )
 }
