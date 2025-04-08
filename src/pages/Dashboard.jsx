@@ -1,67 +1,32 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import { Users, HelpCircle, LogOut, Menu, X } from "lucide-react";
-import { toast, ToastContainer } from "react-toastify";
-import { use } from "react";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+
+
+
+
+
 import Admin from "./Admin/Admin";
 import AdminQuestions from "./Admin/AdminQuestions";
+import { ToastContainer } from "react-toastify";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [admins, setAdmins] = useState([]);
-  const [questions, setQuestions] = useState([]);
-  const [filteredQuestions, setFilteredQuestions] = useState([]);
+  
   const [activeTab, setActiveTab] = useState("admin");
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const token = localStorage.getItem("token");
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("admin");
-  const [questionText, setQuestionText] = useState("");
-  const [options, setOptions] = useState(["", "", "", ""]);
-  const [correctOption, setCorrectOption] = useState(0);
-  const [forgotPasswordUsername, setForgotPasswordUsername] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [selectedTopic, setSelectedTopic] = useState("all");
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [topicField, setTopicField] = useState("");
+
   const [questionTabActive, setQuestionTabActive] = useState("all");
-  const [oldPassword, setOldPassword] = useState("");
-  const [editAdmin, setEditAdmin] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [topics, setTopics] = useState([]);
+
 
   useEffect(() => {
     if (!token) {
       navigate("/login");
-    } else {
     }
   }, [token, navigate]);
 

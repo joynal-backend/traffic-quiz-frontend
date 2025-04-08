@@ -7,8 +7,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'font-1': ['"Roboto Condensed"', 'sans-serif'],
+        'noto-serif-georgian': ['Noto Serif Georgian', 'serif'],
       },
+      screens: {
+        'xl-custom': '1200px',
+      }
     },
   },
   plugins: [animatePlugin],

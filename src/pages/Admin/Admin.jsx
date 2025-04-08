@@ -1,13 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react"; // Import Loader2 for spinner
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { Users, HelpCircle, LogOut, Menu, X, Loader2 } from "lucide-react"; // Import Loader2 for spinner
 
 const Admin = () => {
   const navigate = useNavigate();
-  const [admins, setAdmins] = useState([]);
-  const [loading, setLoading] = useState(false); // For fetching admins
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false); // For fetching Users
   const [creatingAdmin, setCreatingAdmin] = useState(false); // For creating admin
   const [deletingAdmin, setDeletingAdmin] = useState(null); // Track which admin is being deleted
   const [updatingPassword, setUpdatingPassword] = useState(false); // For updating password
@@ -17,7 +17,8 @@ const Admin = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("admin");
+  // const [role, setRole] = useState("admin");
+  const [email, setEmail] = useState(""); // Add state for email
   const [forgotPasswordUsername, setForgotPasswordUsername] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
@@ -28,7 +29,7 @@ const Admin = () => {
     if (!token) {
       navigate("/login");
     } else {
-      fetchAdmins();
+      fetchUsers();
     }
   }, [token, navigate]);
 
@@ -50,18 +51,19 @@ const Admin = () => {
     };
   }, [sidebarOpen]);
 
-  const fetchAdmins = async () => {
+  const fetchUsers = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://traffic-master-backend.vercel.app/admin/all",
+        "http://localhost:5000/api/users",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setAdmins(response.data);
+      console.log(response.data);
+      setUsers(response?.data?.data);
     } catch (error) {
-      console.error("Failed to fetch admins", error);
+      console.error("Failed to fetch Users", error);
       if (error.response?.status === 401) {
         localStorage.removeItem("token");
         navigate("/login");
@@ -75,13 +77,13 @@ const Admin = () => {
     setDeletingAdmin(id); // Set the ID of the admin being deleted
     try {
       await axios.delete(
-        `https://traffic-master-backend.vercel.app/admin/delete/${id}`,
+        `http://localhost:5000/api/users/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       toast.success("Admin deleted successfully");
-      fetchAdmins();
+      fetchUsers();
     } catch (error) {
       console.error("Failed to delete admin", error);
       toast.error("Failed to delete admin");
@@ -95,12 +97,12 @@ const Admin = () => {
     setCreatingAdmin(true);
     try {
       await axios.post(
-        "https://traffic-master-backend.vercel.app/admin/create",
-        { username, password, role },
+        "http://localhost:5000/api/users/register",
+        { username,email, password },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success("Admin created successfully");
-      fetchAdmins();
+      fetchUsers();
       setUsername("");
       setPassword("");
     } catch (error) {
@@ -111,58 +113,56 @@ const Admin = () => {
     }
   };
 
-  const handleUpdatePassword = async (e) => {
-    e.preventDefault();
-    setUpdatingPassword(true);
-    try {
-      const response = await axios.put(
-        "https://traffic-master-backend.vercel.app/admin/update-password",
-        {
-          username: forgotPasswordUsername,
-          oldPassword: oldPassword,
-          newPassword: newPassword,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      toast.success(response.data.message);
-      setForgotPasswordUsername("");
-      setOldPassword("");
-      setNewPassword("");
-    } catch (error) {
-      toast.error("Failed to reset password. Please check your credentials.");
-      console.error("Failed to reset password", error);
-    } finally {
-      setUpdatingPassword(false);
-    }
-  };
+  // const handleUpdatePassword = async (e) => {
+  //   e.preventDefault();
+  //   setUpdatingPassword(true);
+  //   try {
+  //     const response = await axios.put(
+  //       `http://localhost:5000/api/users/${id}`,
+  //       {
+          
+  //       },
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+  //     toast.success(response.data.message);
+  //     setForgotPasswordUsername("");
+  //     setOldPassword("");
+  //     setNewPassword("");
+  //   } catch (error) {
+  //     toast.error("Failed to reset password. Please check your credentials.");
+  //     console.error("Failed to reset password", error);
+  //   } finally {
+  //     setUpdatingPassword(false);
+  //   }
+  // };
 
   return (
     <div>
       <ToastContainer /> {/* Add ToastContainer for toast notifications */}
       <ul>
-        {admins.map((admin) => (
+        {users.map((user) => (
           <li
-            key={admin._id}
+            key={user._id}
             className="flex items-center justify-between p-3 bg-white shadow-md rounded mb-2"
           >
-            <span>{admin.username}</span>
+            <span>{user.username}</span>
             <div className="flex gap-2">
               <button
                 className="py-2 px-4 border bg-[#FEF9E1] text-black rounded flex items-center justify-center"
-                onClick={() => setUserName(admin.username)}
+                onClick={() => setUserName(user.username)}
                 disabled={deletingAdmin !== null || updatingPassword}
               >
                 Edit
               </button>
               <button
-                onClick={() => handleDeleteAdmin(admin._id)}
+                onClick={() => handleDeleteAdmin(user._id)}
                 className="p-2 bg-red-500 text-white rounded flex items-center justify-center"
                 disabled={deletingAdmin !== null || updatingPassword}
               >
-                {deletingAdmin === admin._id ? ( // Show spinner only for the clicked delete button
+                {deletingAdmin === user._id ? ( // Show spinner only for the clicked delete button
                   <Loader2 className="animate-spin mr-2" />
                 ) : null}
-                {deletingAdmin === admin._id ? "Deleting..." : "Delete"}
+                {deletingAdmin === user._id ? "Deleting..." : "Delete"}
               </button>
             </div>
           </li>
@@ -170,7 +170,7 @@ const Admin = () => {
       </ul>
 
       {/* Forget Password Form with Old Password */}
-      {userName && (
+      {/* {userName && (
         <form onSubmit={handleUpdatePassword} className="mb-5">
           <h2 className="text-xl font-semibold">Edit Admin</h2>
           <input
@@ -207,7 +207,7 @@ const Admin = () => {
             {updatingPassword ? "Updating..." : "Reset Password"}
           </button>
         </form>
-      )}
+      )} */}
 
       <div>
         <form onSubmit={handleCreateAdmin} className="mb-5">
@@ -221,6 +221,14 @@ const Admin = () => {
             required
           />
           <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} // Add input for email
+            className="p-2 border rounded w-full my-2"
+            required
+          />
+          <input
             type="password"
             placeholder="Password"
             value={password}
@@ -228,14 +236,15 @@ const Admin = () => {
             className="p-2 border rounded w-full my-2"
             required
           />
-          <input
+         
+          {/* <input
             type="text"
             placeholder="Role"
             value={role}
             onChange={(e) => setRole(e.target.value)}
             className="p-2 border rounded w-full my-2"
             required
-          />
+          /> */}
           <button
             type="submit"
             className="p-2 bg-blue-500 text-white rounded flex items-center justify-center"

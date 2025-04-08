@@ -3,15 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Result = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const {
-    correctAnswers,
-    wrongAnswers,
-    totalQuestions,
-    examCode,
-    selectedTopics,
-    selectedVehicle,
-    passStatus,
-  } = location.state || {};
+  const { selectedTopics, selectedVehicle, passStatus } = location.state || {};
 
   // Function to restart the exam
   const handleRestartExam = () => {
@@ -43,44 +35,56 @@ const Result = () => {
 
   return (
     <div className="bg-[#193E4A] min-h-screen w-full text-white p-4">
-      <h2 className="text-2xl font-bold mb-4">Exam Result</h2>
-      <div className="bg-[#16292F] p-4 rounded-md">
-        <p>Exam Code: {examCode}</p>
-        <p>Vehicle: {selectedVehicle}</p>
-        <p>Correct Answers: {correctAnswers}</p>
-        <p>Wrong Answers: {wrongAnswers}</p>
-        <p>Total Questions: {totalQuestions}</p>
-        <p>Passing Percentage: {((correctAnswers / totalQuestions) * 100).toFixed(2)}%</p>
-        <p className={`text-${passStatus ? 'green' : 'red'}-500 font-bold`}>
-          {passStatus ? "Congratulations! You passed." : "Sorry, you failed."}
-        </p>
+      {passStatus ? (
+        <div className="flex flex-col items-center justify-center">
+          <h3 className="text-2xl font-bold mb-4">გილოცავ!</h3>
+          <div className="flex justify-center items-center">
+            <img
+              src="https://res.cloudinary.com/deyqhzw8p/image/upload/v1740922652/ic24jwy5eaxacpxwm4rl.jpg"
+              alt="Success"
+              className="w-full md:w-90% mx-auto"
+            />
+          </div>
+          <p>
+            გილოცავ! თეორიული გამოცდა ჩათვალე ჩაბარებული გაქვს, წარმატებებს
+            გისურვებ! �
+          </p>
 
-        {/* Buttons based on passStatus */}
-        <div className="mt-4">
-          {!passStatus && (
-            <button
-              onClick={handleRestartExam}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
-            >
-              Restart Exam
-            </button>
-          )}
-          {passStatus && (
-            <button
-              onClick={handleGoToHome}
-              className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
-            >
-              Go to Home
-            </button>
-          )}
           <button
-            onClick={handlePrintResult}
-            className="bg-yellow-500 text-white px-4 py-2 rounded-md"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onClick={handleGoToHome}
           >
-            Print Result
+            გადადით სახლში
+          </button>
+          <button
+            className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+            onClick={handlePrintResult}
+          >
+            ბეჭდვის შედეგი
           </button>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center">
+          <div>
+            <img
+              src="https://res.cloudinary.com/deyqhzw8p/image/upload/v1740923531/dfgkm2b92881lb0zqgfe.png"
+              alt="Fail"
+              className="w-full md:w-90% mx-auto"
+            />
+          </div>
+          <p>
+            არ დანებდე... კიდევ სცადე... ეცადე ის თემები გადაიმერო, რაც
+            გერთულება. 🤩
+          </p>
+
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onClick={handleRestartExam}
+          >
+            ახლიდან დაწყება
+          </button>
+        </div>
+      )}
     </div>
   );
 };
